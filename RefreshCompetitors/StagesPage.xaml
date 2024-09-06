@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RefreshCompetitors.StagesPage"
+             xmlns:local="clr-namespace:RefreshCompetitors"
+             Shell.NavBarIsVisible="false">
+
+    <ContentPage.BindingContext>
+        <local:StagesPageBindingContext x:Name="Page"/>
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid
+            BackgroundColor="WhiteSmoke"
+            RowDefinitions="Auto,Auto,*"
+            ColumnDefinitions="Auto,*">
+            <Label 
+                HorizontalTextAlignment="Start" 
+                Text="{Binding ActiveCompetitor.FullName}" 
+                FontSize="Title" Padding="20,20,0,0"/>
+            <Label 
+                HorizontalOptions="End" 
+                HorizontalTextAlignment="End" 
+                Text="{Binding ActiveCompetitor.Number}"  
+                FontSize="Title"
+                FontAttributes="Bold"
+                Padding="20"
+                Grid.Column="1"/>
+            <CollectionView 
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                ItemsSource="{Binding Stages }" 
+                SelectionMode="None"
+                BackgroundColor="Azure">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView Threshold="50">
+                            <!-- Swipe Items Definition -->
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Execute">
+                                    <SwipeItemView
+                                        Command="{Binding EditScoreCommand, Source={x:Reference Page}}"
+                                        CommandParameter="{Binding .}">
+                                        <Grid 
+                                            WidthRequest="50"
+                                            BackgroundColor="Aqua"
+                                            RowDefinitions="*,*">
+                                            <Label 
+                                                Text="✎" 
+                                                FontSize="18" 
+                                                TextColor="Black" 
+                                                VerticalTextAlignment="Center"
+                                                HorizontalTextAlignment="Center"
+                                                HeightRequest="25"/>
+                                            <Label  
+                                                Grid.Row="1"
+                                                TextColor="Black"
+                                                Text="Score"
+                                                FontSize="10"
+                                                VerticalTextAlignment="Center"
+                                                HorizontalTextAlignment="Center"
+                                                VerticalOptions="Center"
+                                                HeightRequest="25"/>
+                                        </Grid>
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <SwipeView.LeftItems>
+                                <SwipeItems Mode="Execute">
+                                    <SwipeItemView
+                                        Command="{Binding BackNavCommand, Source={x:Reference Page}}"
+                                        CommandParameter="{Binding .}">
+                                        <Grid 
+                                            WidthRequest="50"
+                                            BackgroundColor="Aqua"
+                                            RowDefinitions="*,*">
+                                        </Grid>
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                            <Grid 
+                                Margin="10,5"
+                                BackgroundColor="White"
+                                ColumnDefinitions="Auto,Auto,*"
+                                RowDefinitions="Auto, Auto"
+                                MinimumHeightRequest="40"
+                                RowSpacing="4">
+                                <Border 
+                                    Grid.Row="1" 
+                                    Grid.ColumnSpan="3" 
+                                    Stroke="{Binding BorderColor}"
+                                    StrokeThickness="3" 
+                                    HorizontalOptions="Fill"
+                                    HeightRequest="60">
+                                    <Grid 
+                                        RowDefinitions="*,*" 
+                                        Grid.ColumnSpan="2" 
+                                        ColumnDefinitions="*,Auto,40">
+                                        <Label 
+                                            Padding="5,0,0,0" 
+                                            VerticalOptions="Center" 
+                                            HorizontalOptions="Start"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding StageDescription}"/>
+                                        <Label 
+                                            Grid.Column="1"
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Padding="10"
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            VerticalOptions="Center"
+                                            HorizontalTextAlignment="End" 
+                                            Text="{Binding Score}" />
+                                        <CheckBox 
+                                            IsVisible="{Binding IsScoreVisible}"
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="2"
+                                            IsChecked="True" 
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+        <!--Score editor overlay-->
+        <Grid 
+            IsVisible="{Binding IsEditingScore}"
+            BackgroundColor="#222222"
+            RowDefinitions="60,50,50,*,Auto,Auto, 100">
+            <Label HorizontalTextAlignment="Start" Text="{Binding ActiveCompetitor.FullName}" TextColor="White" FontSize="Title" Padding="20,20,0,0"/>
+            <Label HorizontalTextAlignment="Start" Text="{Binding ActiveCompetitor.Number}" TextColor="White" FontSize="Subtitle" Padding="20,20,0,0" Grid.Row="1"/>
+            <Label HorizontalTextAlignment="Start" Text="{Binding StageDescription}" TextColor="LightGreen" FontSize="Subtitle" Padding="20,20,0,0" Grid.Row="2"/>
+            <Frame 
+                VerticalOptions="Center" 
+                CornerRadius="20"
+                WidthRequest="250" 
+                Grid.Row="3">
+                <Entry 
+                    VerticalOptions="Center" 
+                    Margin="20,0"
+                    Placeholder="Score or Other"  PlaceholderColor="LightCoral"
+                    FontSize="Subtitle" 
+                    BackgroundColor="White" 
+                    TextColor="Black"
+                    Text="{Binding ScorePreview}"/>
+            </Frame>
+            <Button Text="Apply" WidthRequest="100" HeightRequest="40" CornerRadius="20"  Grid.Row="4" Margin="0,10" Command="{Binding ApplyCommand}"/>
+            <Button Text="Cancel" WidthRequest="100" HeightRequest="40" CornerRadius="20" Grid.Row="5" Margin="0,10" Command="{Binding CancelCommand}"/>
+        </Grid>
+        <ActivityIndicator IsRunning="{Binding Busy}" HeightRequest="50" WidthRequest="50"/>
+    </Grid>
+</ContentPage>

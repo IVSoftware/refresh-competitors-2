@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RefreshCompetitors.MainPage"
+             xmlns:local="clr-namespace:RefreshCompetitors"
+             Shell.NavBarIsVisible="true">
+
+    <ContentPage.BindingContext>
+        <local:MainPageBindingContext x:Name="Page"/>
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid
+            Padding="15,0"
+            RowDefinitions="Auto,Auto,Auto,*"
+            RowSpacing="5">
+            <Picker
+                Margin="15,0,0,0"
+                Title="Select Stage"
+                FontSize="Medium"
+                ItemsSource="{Binding Stages}"
+                SelectedItem="{Binding SelectedStage}"
+                ItemDisplayBinding="{Binding .}" />
+            <Button 
+                Text="x"
+                TextColor="Black"
+                BackgroundColor="Transparent"
+                IsVisible="{Binding IsStageFiltered}" 
+                Command="{Binding ClearStageFilterCommand}" 
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+            <SearchBar 
+                x:Name="searchBar"
+                Grid.Row="1"
+                TextColor="Black"
+                BackgroundColor="White"/>
+            <Image
+                HorizontalOptions="Start"
+                Grid.Row="2"
+                Source="dotnet_bot.png"
+                HeightRequest="85"
+                Aspect="AspectFit" />
+            <CollectionView 
+                Grid.Row="3"
+                ItemsSource="{Binding CompetitorQueryFilteredResult }" 
+                SelectionMode="None"
+                BackgroundColor="Azure">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView Threshold="50">
+                            <!-- Swipe Items Definition -->
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Execute">
+                                    <SwipeItemView
+                                        Command="{Binding EditCompetitorCommand, Source={x:Reference Page}}"
+                                        CommandParameter="{Binding .}">
+                                        <Grid 
+                                            WidthRequest="50"
+                                            BackgroundColor="Aqua"
+                                            RowDefinitions="*,*">
+                                            <Label 
+                                                Text="✎" 
+                                                FontSize="18" 
+                                                TextColor="Black" 
+                                                VerticalTextAlignment="Center"
+                                                HorizontalTextAlignment="Center"/>
+                                            <Label  
+                                                Grid.Row="1"
+                                                TextColor="Black"
+                                                Text="Score"
+                                                FontSize="10"
+                                                VerticalTextAlignment="Center"
+                                                HorizontalTextAlignment="Center"
+                                                VerticalOptions="Center"/>
+                                        </Grid>
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Grid 
+                                Margin="10,5"
+                                BackgroundColor="White"
+                                ColumnDefinitions="*,*"
+                                RowDefinitions="Auto,Auto,Auto"
+                                MinimumHeightRequest="40"
+                                RowSpacing="4">
+                                <Label 
+                                    Padding="20,0,0,0"
+                                    Grid.Column="0" 
+                                    VerticalOptions="Center" 
+                                    HorizontalTextAlignment="Start" 
+                                    FontAttributes="Bold"
+                                    FontSize="Subtitle"
+                                    Text="{Binding FullName }"/>
+                                <Label 
+                                    Padding="10" 
+                                    Grid.Column="1"
+                                    VerticalOptions="Center" 
+                                    HorizontalOptions="End" 
+                                    HorizontalTextAlignment="End" 
+                                    FontSize="Subtitle"
+                                    Text="{Binding Number }" 
+                                    FontAttributes="Bold"/>
+                                <CollectionView
+                                    Grid.Row="2"
+                                    Grid.ColumnSpan="3"
+                                    Margin="30,0,0,0" 
+                                    ItemsSource="{Binding FilteredScores }" 
+                                    SelectionMode="None">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid 
+                                                ColumnDefinitions="*,*"
+                                                RowSpacing="0"
+                                                HeightRequest="35">
+                                                <Label Text="{Binding StageDescription}"/>
+                                                <Label Grid.Column="1" HorizontalOptions="Start" Text="{Binding Score}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </Grid>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+        <ActivityIndicator IsRunning="{Binding Busy}" HeightRequest="50" WidthRequest="50"/>
+    </Grid>
+</ContentPage>
