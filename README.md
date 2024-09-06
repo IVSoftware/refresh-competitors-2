@@ -77,7 +77,7 @@ ___
 
 ### Refresh a CollectionView (with Filters)
 
-**Your question states an intent to _Refresh a CollectionView_.** But if the backing store of your Competitor data is now the SQLite database, that puts a different spin on the `Refresh()` that occurs in response to `OnAppearing()`. Suppose you were to requery the database in this method, where the justification would include the added benefit of being able to apply filters such as FullName and Stage.
+**Your question states an intent to _Refresh a CollectionView_.** But if the backing store of your Competitor data is now the SQLite database, that puts a different spin on the `Refresh()` that occurs in response to `OnAppearing()`. As an alternative to `OnPropertyChanged`, suppose you were to **requery the database** in this method, where the justification would include the added benefit of being able to apply interactive filters such as FullName and Stage.
 
 [![effect of name filter][1]][1]
 
