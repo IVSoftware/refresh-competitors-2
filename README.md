@@ -354,8 +354,12 @@ class StagesPageBindingContext : INotifyPropertyChanged
 
 ___
 
-When the [Apply] button is clicked, it returns to an visually updated `StagesPage`. When the `MainPage` is navigated to, it will show the updated values, including (for example) an updated and re-soreted leader bors for the selected phase.
+When the [Apply] button is clicked, it returns to an visually updated `StagesPage`. When the `MainPage` is navigated to, it will show the updated values, including (for example) an updated and re-sorted leader board for the selected phase.
+
+[![effect of apply][4]][4]
+
 
   [1]: https://i.sstatic.net/TspQhtJj.png
   [2]: https://i.sstatic.net/gVX6n8Iz.png
   [3]: https://i.sstatic.net/WxnI5cGw.png
+  [4]: https://i.sstatic.net/QsN2ZSZn.png
