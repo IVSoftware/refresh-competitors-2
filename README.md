@@ -77,7 +77,7 @@ ___
 
 ### Refresh a CollectionView (with Filters)
 
-**Your question states an intent to _Refresh a CollectionView_.** But if the backing store of your Competitor data is now the SQLite database, that puts a different spin on the `Refresh()` that occurs in response to `OnAppearing()`. As an alternative to `OnPropertyChanged`, suppose you were to **requery the database** in this method, where the justification would include the added benefit of being able to apply interactive filters such as FullName and Stage.
+**Your question states an intent to _Refresh a CollectionView_.** But if the backing store of your Competitor data is now the SQLite database, that puts a different spin on the `Refresh()` that occurs in response to `OnAppearing()`. Suppose you were to requery the database in this method, where the justification would include the added benefit of being able to apply filters such as FullName and Stage.
 
 [![effect of name filter][1]][1]
 
@@ -272,7 +272,9 @@ ___
 </Shell>
 ```
 
-The images in above workflow show the `StagesPage` which I hope aspires to addresses a strategy for accessing common data from different views. The `Refresh` is much simpler, showing the competitors score for a stage if they have one, or a placeholder if they don't.
+Swiping a card left in the `MainPage` opens the `StagesPage` view. The `Refresh` here is much simpler, showing the competitor's score for a stage if they have one, or a placeholder if they don't. A stage card can then be swiped left to open an editing overlay for the score.
+
+[![workflow main card swiped left][3]][3]
 
 ```
 class StagesPageBindingContext : INotifyPropertyChanged
@@ -350,6 +352,10 @@ class StagesPageBindingContext : INotifyPropertyChanged
 }
 ```
 
+___
+
+When the [Apply] button is clicked, it returns to an visually updated `StagesPage`. When the `MainPage` is navigated to, it will show the updated values, including (for example) an updated and re-soreted leader bors for the selected phase.
 
   [1]: https://i.sstatic.net/TspQhtJj.png
   [2]: https://i.sstatic.net/gVX6n8Iz.png
+  [3]: https://i.sstatic.net/WxnI5cGw.png
