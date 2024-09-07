@@ -1,4 +1,22 @@
-﻿I've been thinking about your comment regarding being able to access "one object and access it globally". I don't know how long this will stay up - it's more a perspective than a deterministic answer - but in the meantime the hope is that there might be some small thing you can use. 
+﻿I have updated this answer from your comments:
+
+> The score is actually not saved in the competitor, but in a separate Dictionary in which every Competitor Id is bound to a Score. That's what I meant by "the data in my ObservableRangeCollection aren't actually changing.
+___
+
+> I don't have to store the Scores at several places, I can just save them in one object and access it globally.
+
+___
+> On a previous View the User gets to pick a stage, and on this View the user gets to pick a competitor. 
+
+With that clarification, the answer to _**OnPropertyChanged on an ObservableCollection doesn't refresh a CollectionView content**_ has two explanations at the first approximation. The first, like you say, _the data in my ObservableRangeCollection aren't actually changing_ (I know, that's what you're trying to "fix" with `ItemsChangedObservableRangeCollection`) but also the `PropertyChanged` event does _very little_ for an `ObservableCollection<T>` because the visible list is updated by the `CollectionChanged` event, not the `PropertyChanged` event.  It responds to Add, Remove, Replace, Move, and Reset only.
+
+When you put items into the list, their properties can be observable too. It's just that this _has no bearing on the list_. None. That is, it doesn't make it longer or shorter. But that shouldn't bother you or make you want to write a custom class, because the refresh that you seek happens in the `DataTemplate` which is bound to an instance of `Competitor`. It has almost nothing to do with the list other than being contained by it.
+
+___
+
+#### Is better binding the way forward here?
+
+Based on everything you said (and this is more a perspective than a deterministic answer) - bindings might take you only so far. There is another way and since I'm dealing with similar issues in my own app I've been doing proof of concept for driving the data with persistent SQLite in place of an ephemeral `Dictionary` in memory. 
 
 Looking at your code I do have a concern about what happens if the app is suspended, or closed (as often happens inadvertently on mobile devices). In order to avoid losing all the Competitor data when that happens you probably already have (or will want to have) an SQLite database to persist the info. It follows that it might be a good fit to make this "global object" _be_ the `SQLiteAsyncConnection` and declare it in `App` perhaps. 
 
