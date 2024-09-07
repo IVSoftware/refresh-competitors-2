@@ -230,7 +230,7 @@ namespace RefreshCompetitors
         /// </summary>
         public string? Score { get; set; }
 
-        public Stage? Stage { get; set; }
+        public Stage Stage { get; set; }
 
         public string StageDescription => $"{Stage}".CamelCaseToSpaces();
 
@@ -243,11 +243,11 @@ namespace RefreshCompetitors
                 if(Score == null) return Colors.DimGray;
                 switch (Stage)
                 {
-                    case RefreshCompetitors.Stage.PreliminaryRound: return Colors.Blue;
-                    case RefreshCompetitors.Stage.GroupStage: return Colors.LightBlue;
-                    case RefreshCompetitors.Stage.KnockoutStage: return Colors.LightSalmon;
-                    case RefreshCompetitors.Stage.Semifinals: return Colors.LightGreen;
-                    case RefreshCompetitors.Stage.Finals: return Colors.Green;
+                    case Stage.PreliminaryRound: return Colors.Blue;
+                    case Stage.GroupStage: return Colors.LightBlue;
+                    case Stage.KnockoutStage: return Colors.LightSalmon;
+                    case Stage.Semifinals: return Colors.LightGreen;
+                    case Stage.Finals: return Colors.Green;
                     default: return Colors.Black;
                 }
             }
